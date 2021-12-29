@@ -41,4 +41,22 @@ var Books = []Book{
 		"Mattews",
 		3000,
 	},
+	{
+		5,
+		"Make time",
+		"Mike",
+		600,
+	},
+	{
+		6,
+		"Money Matters",
+		"Shawn",
+		2617,
+	},
+	{
+		7,
+		"How to make friend and influence people",
+		"Dale Cargnie",
+		918,
+	},
 }
