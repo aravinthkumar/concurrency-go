@@ -30,6 +30,7 @@ func main() {
 		fmt.Printf("Book '%v' not found", id)
 		time.Sleep(1500 * time.Millisecond)
 	}
+	// workaround : to make the go routines run
 	time.Sleep(2 * time.Second)
 }
 
