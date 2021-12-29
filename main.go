@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -11,27 +12,26 @@ var cache = map[int]Book{}
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func main() {
-
-	for i := 0; i < 3; i++ {
-		id := rnd.Intn(3) + 1
-		go func(id int) {
+	wg := &sync.WaitGroup{}
+	for i := 1; i < 7; i++ {
+		id := rnd.Intn(7)
+		wg.Add(2)
+		go func(id int, wg *sync.WaitGroup) {
 			if b, ok := getBookFromCache(id); ok {
 				fmt.Println("Fetched from cache")
 				fmt.Println(b)
 			}
-		}(id)
-		go func(id int) {
+			wg.Done()
+		}(id, wg)
+		go func(id int, wg *sync.WaitGroup) {
 			if b, ok := getBookFromDb(id); ok {
 				fmt.Println("Fetched from Database")
 				fmt.Println(b)
-
 			}
-		}(id)
-		fmt.Printf("Book '%v' not found", id)
-		time.Sleep(1500 * time.Millisecond)
+			wg.Done()
+		}(id, wg)
 	}
-	// workaround : to make the go routines run
-	time.Sleep(2 * time.Second)
+	wg.Wait()
 }
 
 func getBookFromCache(id int) (Book, bool) {
