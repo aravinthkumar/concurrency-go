@@ -7,24 +7,30 @@ import (
 )
 
 var cache = map[int]Book{}
+
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func main() {
-	for i := 0; i < 3; i++ {
-		i = rnd.Intn(3) + 1
-		if b, ok := getBookFromCache(i); ok {
-			fmt.Println("Fetched from cache")
-			fmt.Println(b)
-			continue
-		}
-		if b, ok := getBookFromDb(i); ok {
-			fmt.Println("Fetched from Database")
-			fmt.Println(b)
-			continue
-		}
-		fmt.Printf("Book '%v' not found", i)
-	}
 
+	for i := 0; i < 3; i++ {
+		id := rnd.Intn(3) + 1
+		go func(id int) {
+			if b, ok := getBookFromCache(id); ok {
+				fmt.Println("Fetched from cache")
+				fmt.Println(b)
+			}
+		}(id)
+		go func(id int) {
+			if b, ok := getBookFromDb(id); ok {
+				fmt.Println("Fetched from Database")
+				fmt.Println(b)
+
+			}
+		}(id)
+		fmt.Printf("Book '%v' not found", id)
+		time.Sleep(1500 * time.Millisecond)
+	}
+	time.Sleep(2 * time.Second)
 }
 
 func getBookFromCache(id int) (Book, bool) {
@@ -33,6 +39,7 @@ func getBookFromCache(id int) (Book, bool) {
 }
 
 func getBookFromDb(id int) (Book, bool) {
+	time.Sleep(100 * time.Millisecond)
 	for _, b := range Books {
 		if id == b.ID {
 			cache[id] = b
@@ -40,5 +47,4 @@ func getBookFromDb(id int) (Book, bool) {
 		}
 	}
 	return Book{}, false
-
 }

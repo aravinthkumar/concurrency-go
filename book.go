@@ -17,26 +17,25 @@ func (b Book) String() string {
 }
 
 var Books = []Book{
-	Book{
+	{
 		ID:     1,
 		Name:   "Danvanci Code",
 		Author: "Dan Brown",
 		Sold:   1200,
 	},
-	Book{
+	{
 		ID:     2,
 		Name:   "Atomic Habits",
 		Author: "James Clear",
 		Sold:   2000,
 	},
-	Book{
+	{
 		3,
 		"Power of Habit",
 		"Charles Duhigg",
 		3000,
 	},
-
-	Book{
+	{
 		4,
 		"Why we Sleep",
 		"Mattews",
