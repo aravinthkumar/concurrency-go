@@ -43,9 +43,8 @@ func getBookFromDb(id int) (Book, bool) {
 	time.Sleep(100 * time.Millisecond)
 	for _, b := range Books {
 		if id == b.ID {
-			//Commenting the write operation to cache since cache is used for reading in a different place
-			// which leads to race condition problems
-			//cache[id] = b
+			// go run --race would still be present
+			cache[id] = b
 			return b, true
 		}
 	}
