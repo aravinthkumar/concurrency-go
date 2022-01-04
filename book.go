@@ -11,10 +11,9 @@ type Book struct {
 
 func (b Book) String() string {
 	return fmt.Sprintf(
-		"ID:\t\t%q\n"+
-			"Title:\t\t%q\n"+
+		"Title:\t\t%q\n"+
 			"Author:\t\t%q\n"+
-			"Published:\t%v\n", b.ID, b.Name, b.Author, b.Sold)
+			"Published:\t%v\n", b.Name, b.Author, b.Sold)
 }
 
 var Books = []Book{
